@@ -5,6 +5,11 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
+    "freezegun>=1.5.5",
     "playwright>=1.62.0",
+    "pytest>=9.1.1",
     "python-dotenv>=1.2.3",
 ]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
