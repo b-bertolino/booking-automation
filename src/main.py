@@ -1,11 +1,16 @@
 from dotenv import load_dotenv
 from utils.dates import get_booking_date
 from automation.playwright.booking import run_playwright
+from time import perf_counter
+from utils.logging_config import configure_logging
 
-import os
+import os, logging
 
+
+logger = logging.getLogger(__name__)
 
 def main():
+    configure_logging()
     load_dotenv()
 
     email = os.getenv("EMAIL")
@@ -18,7 +23,10 @@ def main():
     booking_day = str(get_booking_date(8).day)
     booking_time = "18:15"
 
+    start = perf_counter()
     run_playwright(email, password, url, booking_day, booking_time)
+    duration = perf_counter() - start
+    logger.info(f"Tempo di esecuzione: {duration:.2f}s")
 
 if __name__ == "__main__":
     main()
