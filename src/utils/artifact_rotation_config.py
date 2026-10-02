@@ -12,7 +12,7 @@ def create_run_directory() -> Path:
     run_dir = (
         ARTIFACTS_DIR
         / now.strftime("%Y-%m-%d")
-        / now.strftime("%H:%M:%S")
+        / now.strftime("%H-%M")
     )
 
     run_dir.mkdir(parents=True, exist_ok=True)

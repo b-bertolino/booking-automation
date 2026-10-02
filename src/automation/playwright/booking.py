@@ -1,5 +1,5 @@
 from playwright.sync_api import sync_playwright, Page
-from domain.booking_result import BookingResult
+from src.domain.booking_result import BookingResult
 
 import logging
 
