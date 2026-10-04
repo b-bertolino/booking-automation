@@ -36,6 +36,7 @@ jobs:
           PASSWORD: ${{ secrets.PASSWORD }}
           URL: ${{ secrets.URL }}
           TIME: ${{ vars.TIME }}
+          HEADLESS: true
         run: uv run python main.py
 
       - name: Upload artifacts

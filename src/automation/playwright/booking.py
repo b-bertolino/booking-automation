@@ -1,10 +1,10 @@
 from playwright.sync_api import sync_playwright, Page
 from src.domain.booking_result import BookingResult
 
-import logging
-
+import logging, os
 
 logger = logging.getLogger(__name__)
+headless = os.getenv("HEADLESS", "false").lower() == "true"
 
 
 from pathlib import Path
@@ -50,7 +50,7 @@ def run_playwright(email: str, password: str, url: str, booking_day: str, bookin
     screen_path = ""
 
     with sync_playwright() as p:
-        browser = p.chromium.launch(headless=False, slow_mo=1000)
+        browser = p.chromium.launch(headless=headless, slow_mo=1000 if not headless else 0)
         # context = browser.new_context() # Crea una nuova scheda (tab)
         try:
             page = browser.new_page()
