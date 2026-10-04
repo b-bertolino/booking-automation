@@ -1,0 +1,48 @@
+name: Booking automation
+
+on:
+  schedule:
+    - cron: "15 8 * * 0,2,4"
+      timezone: "Europe/Rome"
+
+  workflow_dispatch:
+
+jobs:
+  booking:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v9
+        with:
+          enable-cache: true
+
+      - name: Set up Python
+        run: uv python install
+
+      - name: Install dependencies
+        run: uv sync --locked
+
+      - name: Install Playwright browsers
+        run: uv run playwright install --with-deps
+
+      - name: Run booking automation
+        env:
+          EMAIL: ${{ secrets.EMAIL }}
+          PASSWORD: ${{ secrets.PASSWORD }}
+          URL: ${{ secrets.URL }}
+          TIME: ${{ vars.TIME }}
+        run: uv run python main.py
+
+      - name: Upload artifacts
+        if: always()
+        uses: actions/upload-artifact@v5
+        with:
+          name: booking-artifacts
+          path: artifacts/
+          retention-days: 14
+          if-no-files-found: warn

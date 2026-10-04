@@ -18,17 +18,19 @@ def main():
     url = os.getenv("URL")
 
     if not email or not password or not url:
-        raise ValueError("Credenziali mancanti: imposta EMAIL e PASSWORD.")
+        raise ValueError("Credenziali mancanti: imposta EMAIL, PASSWORD e URL.")
 
-    cleanup_old_directory(30)
+    cleanup_old_directory(14)
     run_dir = create_run_directory()
     configure_logging(run_dir)
 
-    booking_day = get_booking_date()
+    booking_date = get_booking_date()
     booking_time = os.getenv("TIME", "20:15")
 
+    logger.info(f"Avvio prenotazione per {booking_date} alle {booking_time}!")
+
     start = perf_counter()
-    run_playwright(email, password, url, booking_day, booking_time, run_dir)
+    run_playwright(email, password, url, str(booking_date.day), booking_time, run_dir)
     duration = perf_counter() - start
     logger.info(f"Tempo di esecuzione: {duration:.2f}s")
 
