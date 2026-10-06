@@ -30,6 +30,13 @@ jobs:
       - name: Install Playwright browser (Chromium --headless)
         run: uv run playwright install chromium --with-deps --only-shell
 
+      - name: Debug schedule
+        run: |
+          echo "Event: ${{ github.event_name }}"
+          echo "Schedule: ${{ github.event.schedule }}"
+          date -u
+          date
+
       - name: Run booking automation
         env:
           EMAIL: ${{ secrets.EMAIL }}
