@@ -3,6 +3,7 @@ name: Booking automation
 on:
   schedule:
     - cron: "15 7 * * 0,2,4"
+      timezone: "Europe/Rome"
 
   workflow_dispatch:
 
